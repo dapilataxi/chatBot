@@ -21,6 +21,11 @@ public class DireccionService {
     private GeminiClient geminiClient;
 
     public RutaDTO obtenerRuta(String origenNombre, String destinoNombre) {
+        // ✅ Validación para evitar origen igual a destino
+        if (origenNombre.equalsIgnoreCase(destinoNombre)) {
+            throw new RuntimeException("⚠️ El punto de origen y destino no pueden ser iguales.");
+        }
+
         Punto puntoOrigen = puntoRepository.findByNombreIgnoreCase(origenNombre)
                 .orElseThrow(() -> new RuntimeException("Punto de origen no encontrado: " + origenNombre));
         Punto puntoDestino = puntoRepository.findByNombreIgnoreCase(destinoNombre)
